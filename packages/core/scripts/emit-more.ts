@@ -1,4 +1,4 @@
-import { deployments, ethers, getNamedAccounts } from "hardhat";
+import { ethers } from "hardhat";
 
 import { Hello } from "../typechain-types";
 import { randomInt } from "crypto";
