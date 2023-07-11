@@ -9,6 +9,9 @@ typechain-types
 cache
 artifacts
 
+artifacts-zk
+cache-zk
+
 # web
 apps/web/migration.ts
 

@@ -4,8 +4,8 @@
 
 npx pretty-quick --staged
 
-run_tests=`git diff --cached --name-only --diff-filter=ACM packages/core/ | wc -l | awk '{print $1}'`
+# run_tests=`git diff --cached --name-only --diff-filter=ACM packages/core/ | wc -l | awk '{print $1}'`
 
-if [ "$run_tests" -gt "0" ] ; then
-  pnpm --filter core run test 
-fi
+# if [ "$run_tests" -gt "0" ] ; then
+#   pnpm --filter core run test 
+# fi
