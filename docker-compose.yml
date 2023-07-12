@@ -1,8 +1,48 @@
-version: "3.9"
-
+version: "3.2"
 services:
-  development-chain:
-    image: trufflesuite/ganache-cli
+  geth:
+    image: "matterlabs/geth:latest"
+    logging:
+      driver: none
     ports:
-      - 8545:8545
-    command: --db /data --mnemonic "${MNEMONIC}"
+      - "8545:8545"
+      - "8546:8546"
+    volumes:
+      - geth-data:/var/lib/geth/data
+
+  postgres:
+    image: "postgres:12"
+    logging:
+      driver: none
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+  zksync:
+    stdin_open: true
+    tty: true
+    image: matterlabs/local-node:latest2.0
+    depends_on:
+      - geth
+      - postgres
+    ports:
+      - "3050:3050" # JSON RPC HTTP port
+      - "3051:3051" # JSON RPC WS port
+    volumes:
+      # Configs folder bind
+      # - type: bind
+      - .zksync-dev.env:/etc/env/dev.env
+      #   target: /etc/env/dev.env
+      # # Storage folder bind
+      - zksync:/var/lib/zksync/data
+    environment:
+      - DATABASE_URL=postgres://postgres@postgres/zksync_local
+      - ETH_CLIENT_WEB3_URL=http://geth:8545
+
+volumes:
+  geth-data:
+  postgres:
+  zksync:
