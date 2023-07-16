@@ -30,6 +30,8 @@ export type { IL1Messenger } from "./@matterlabs/zksync-contracts/l2/system-cont
 export { IL1Messenger__factory } from "./factories/@matterlabs/zksync-contracts/l2/system-contracts/interfaces/IL1Messenger__factory";
 export type { INonceHolder } from "./@matterlabs/zksync-contracts/l2/system-contracts/interfaces/INonceHolder";
 export { INonceHolder__factory } from "./factories/@matterlabs/zksync-contracts/l2/system-contracts/interfaces/INonceHolder__factory";
+export type { IPaymaster } from "./@matterlabs/zksync-contracts/l2/system-contracts/interfaces/IPaymaster";
+export { IPaymaster__factory } from "./factories/@matterlabs/zksync-contracts/l2/system-contracts/interfaces/IPaymaster__factory";
 export type { IPaymasterFlow } from "./@matterlabs/zksync-contracts/l2/system-contracts/interfaces/IPaymasterFlow";
 export { IPaymasterFlow__factory } from "./factories/@matterlabs/zksync-contracts/l2/system-contracts/interfaces/IPaymasterFlow__factory";
 export type { ISystemContext } from "./@matterlabs/zksync-contracts/l2/system-contracts/interfaces/ISystemContext";
@@ -40,9 +42,13 @@ export type { IERC20 } from "./@matterlabs/zksync-contracts/l2/system-contracts/
 export { IERC20__factory } from "./factories/@matterlabs/zksync-contracts/l2/system-contracts/openzeppelin/token/ERC20/IERC20__factory";
 export type { IERC1271 } from "./@openzeppelin/contracts/interfaces/IERC1271";
 export { IERC1271__factory } from "./factories/@openzeppelin/contracts/interfaces/IERC1271__factory";
+export type { ERC20 } from "./@openzeppelin/contracts/token/ERC20/ERC20";
+export { ERC20__factory } from "./factories/@openzeppelin/contracts/token/ERC20/ERC20__factory";
+export type { IERC20Metadata } from "./@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata";
+export { IERC20Metadata__factory } from "./factories/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata__factory";
 export type { Hello } from "./contracts/Hello";
 export { Hello__factory } from "./factories/contracts/Hello__factory";
-export type { UserAccount } from "./contracts/UserAccount";
-export { UserAccount__factory } from "./factories/contracts/UserAccount__factory";
-export type { UserAccountFactory } from "./contracts/UserAcountFactory.sol/UserAccountFactory";
-export { UserAccountFactory__factory } from "./factories/contracts/UserAcountFactory.sol/UserAccountFactory__factory";
+export type { MyERC20 } from "./contracts/MyERC20";
+export { MyERC20__factory } from "./factories/contracts/MyERC20__factory";
+export type { MyPaymaster } from "./contracts/MyPaymaster";
+export { MyPaymaster__factory } from "./factories/contracts/MyPaymaster__factory";
