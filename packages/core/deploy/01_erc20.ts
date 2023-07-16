@@ -15,4 +15,4 @@ const deploy_function: DeployFunction = async function (
 
 export default deploy_function;
 
-deploy_function.tags = ["ERC20"];
+deploy_function.tags = ["ERC20", "testing"];

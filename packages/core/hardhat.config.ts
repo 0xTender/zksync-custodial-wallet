@@ -9,6 +9,7 @@ import "@matterlabs/hardhat-zksync-solc";
 import "@matterlabs/hardhat-zksync-verify";
 // dynamically changes endpoints for local tests
 import { config } from "dotenv";
+import { wallets } from "./test/fixtures/wallets";
 
 config({
   path: `.env`,
@@ -18,7 +19,7 @@ const zkSyncLocalNode = {
   url: "http://192.168.29.82:3050",
   ethNetwork: "http://192.168.29.82:8545",
   zksync: true,
-  accounts: [process.env.DEPLOYER_PRIVATE_KEY ?? ""],
+  accounts: wallets.map((e) => e.privateKey),
 };
 
 const zkSyncTestnet = {

@@ -19,5 +19,5 @@ const deploy_function: DeployFunction = async function (
 
 export default deploy_function;
 
-deploy_function.tags = ["Registry"];
+deploy_function.tags = ["Registry", "testing"];
 // deploy_function.dependencies = ["ERC20"];

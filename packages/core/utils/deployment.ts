@@ -1,8 +1,8 @@
 import { Deployer } from "@matterlabs/hardhat-zksync-deploy";
 import { config, deployments, ethers, network } from "hardhat";
-import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { HardhatRuntimeEnvironment, HttpNetworkConfig } from "hardhat/types";
 
-import { Wallet } from "zksync-web3";
+import { Provider, Wallet } from "zksync-web3";
 
 export const isDeployed = async (name: string) => {
   const { getOrNull } = deployments;
@@ -44,6 +44,25 @@ export const deployZkSync = async (
     args: args ?? [],
   });
   console.log(`${name} address: ${contract.address}`);
+};
+
+export const getWalletFromAddress = async (
+  account: string,
+  provider?: Provider
+) => {
+  // new zk.Provider((network.config as HttpNetworkConfig).url)
+  const accounts = await ethers.getSigners();
+  let index = 0;
+  for (const accountWithAddress of accounts) {
+    if (accountWithAddress.address === account) {
+      return new Wallet(
+        config.networks[network.name].accounts[index],
+        provider ?? undefined
+      );
+    }
+    index++;
+  }
+  throw new Error("Invalid account: " + account.toString());
 };
 
 export const getWalletFromNamedAccount = async (accountName: string) => {

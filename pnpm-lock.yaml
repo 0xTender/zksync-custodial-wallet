@@ -156,6 +156,9 @@ importers:
 
   packages/core:
     dependencies:
+      "@openzeppelin/contracts-upgradeable":
+        specifier: ^4.9.2
+        version: 4.9.2
       "@typescript-eslint/eslint-plugin":
         specifier: ^5.60.1
         version: 5.60.1(@typescript-eslint/parser@5.61.0)(eslint@8.44.0)(typescript@4.9.5)
@@ -186,7 +189,7 @@ importers:
         version: 0.1.8(@nomiclabs/hardhat-etherscan@3.1.7)(hardhat@2.14.0)
       "@matterlabs/zksync-contracts":
         specifier: ^0.6.1
-        version: 0.6.1(@openzeppelin/contracts-upgradeable@4.6.0)(@openzeppelin/contracts@4.9.2)
+        version: 0.6.1(@openzeppelin/contracts-upgradeable@4.9.2)(@openzeppelin/contracts@4.9.2)
       "@nomicfoundation/hardhat-chai-matchers":
         specifier: ^1.0.6
         version: 1.0.6(chai@4.3.7)(ethers@5.7.2)(hardhat-deploy-ethers@0.3.0-beta.13)(hardhat@2.14.0)
@@ -1489,7 +1492,7 @@ packages:
       - supports-color
     dev: true
 
-  /@matterlabs/zksync-contracts@0.6.1(@openzeppelin/contracts-upgradeable@4.6.0)(@openzeppelin/contracts@4.9.2):
+  /@matterlabs/zksync-contracts@0.6.1(@openzeppelin/contracts-upgradeable@4.9.2)(@openzeppelin/contracts@4.9.2):
     resolution:
       {
         integrity: sha512-+hucLw4DhGmTmQlXOTEtpboYCaOm/X2VJcWmnW4abNcOgQXEHX+mTxQrxEfPjIZT0ZE6z5FTUrOK9+RgUZwBMQ==,
@@ -1499,7 +1502,7 @@ packages:
       "@openzeppelin/contracts-upgradeable": 4.6.0
     dependencies:
       "@openzeppelin/contracts": 4.9.2
-      "@openzeppelin/contracts-upgradeable": 4.6.0
+      "@openzeppelin/contracts-upgradeable": 4.9.2
     dev: true
 
   /@metamask/eth-sig-util@4.0.1:
@@ -2148,12 +2151,11 @@ packages:
       - supports-color
     dev: true
 
-  /@openzeppelin/contracts-upgradeable@4.6.0:
+  /@openzeppelin/contracts-upgradeable@4.9.2:
     resolution:
       {
-        integrity: sha512-5OnVuO4HlkjSCJO165a4i2Pu1zQGzMs//o54LPrwUgxvEO2P3ax1QuaSI0cEHHTveA77guS0PnNugpR2JMsPfA==,
+        integrity: sha512-siviV3PZV/fHfPaoIC51rf1Jb6iElkYWnNYZ0leO23/ukXuvOyoC/ahy8jqiV7g+++9Nuo3n/rk5ajSN/+d/Sg==,
       }
-    dev: true
 
   /@openzeppelin/contracts@4.9.2:
     resolution:
