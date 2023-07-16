@@ -39,11 +39,11 @@ export default function Register({
         <form onSubmit={formik.handleSubmit} className="grid gap-4">
           <div className="grid gap-1">
             <label className="text-sm font-extralight text-zinc-200">
-              App Name
+              Paymaster
             </label>
             <Field
               name="name"
-              placeholder="Enter your name"
+              placeholder="Enter paymaster name"
               className="rounded-md border border-orange-500 bg-orange-500/0 p-2 px-3 py-2 text-orange-500 placeholder-orange-700/25 duration-300 hover:bg-orange-800/10 hover:outline hover:outline-orange-600  focus:border-orange-700 focus:bg-orange-600/10 focus:ring-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
             />
           </div>
