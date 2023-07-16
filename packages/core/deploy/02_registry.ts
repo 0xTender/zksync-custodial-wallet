@@ -18,7 +18,7 @@ const deploy_function: DeployFunction = async function (
     (e) => e.event === "CreatePaymaster"
   )?.[0];
 
-  const paymasterAddress = (createdEvent?.args as any).paymaster;
+  const paymasterAddress = createdEvent?.args?.paymaster;
 
   console.log(`Paymaster address: ${paymasterAddress}`);
 };
