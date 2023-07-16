@@ -1,18 +1,35 @@
 import Modal from "@app/components/Modal";
-import { useDisconnect } from "wagmi";
-import { PowerIcon } from "@heroicons/react/24/outline";
+import { DisconnectButton } from "../../components/buttons/DisconnectButton";
+import Onboarding from "@app/components/Onboarding";
+import { useMemo, useState } from "react";
+import Register from "@app/components/Register";
+
+const steps = {
+  onboarding: {
+    title: "Onboarding",
+  },
+  register: {
+    title: "Register Paymaster",
+  },
+  app: {
+    title: null,
+  },
+} as const;
 
 export default function App() {
-  const { disconnect } = useDisconnect();
+  const [name, setName] = useState("");
+  const [appName, setAppName] = useState("");
+  const step = useMemo(() => {
+    if (!name) return steps.onboarding;
+    if (!appName) return steps.register;
+    return steps.app;
+  }, [appName, name]);
   return (
-    <Modal heading="Onboarding" grayscale>
-      <button
-        onClick={() => disconnect()}
-        className="group absolute right-4 top-4 inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 pr-1 duration-300 hover:border-red-500 hover:bg-red-500/20 hover:pr-3 hover:text-red-500 hover:outline hover:outline-red-500"
-      >
-        Disconnect
-        <PowerIcon className="h-4 w-0 text-red-500 duration-300 group-hover:w-4" />
-      </button>
+    <Modal heading={step.title || `${appName} by @${name}`} grayscale>
+      {step === steps.onboarding && <Onboarding setName={setName} />}
+      {step === steps.register && <Register setAppName={setAppName} />}
+      {/* absolute */}
+      <DisconnectButton />
     </Modal>
   );
 }
