@@ -7,7 +7,7 @@ export default function AuthProvider({ children }: PropsWithChildren<unknown>) {
   const { isConnected } = useAccount();
   useEffect(() => {
     if (isConnected) {
-      void router.push("/app");
+      void router.push("/home");
     } else {
       void router.push("/");
     }
