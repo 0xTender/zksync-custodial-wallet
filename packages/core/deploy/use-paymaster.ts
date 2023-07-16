@@ -4,10 +4,10 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 // Put the address of the deployed paymaster here
 // 0xaE7F6b4f2fF21fC5Fc52932A25faea11Bf5F509e
-const PAYMASTER_ADDRESS = "0xaE7F6b4f2fF21fC5Fc52932A25faea11Bf5F509e";
+const PAYMASTER_ADDRESS = "0xfEfb66104517a9410FDDb485D1b8a3d0aF752fAe";
 
 // Put the address of the ERC20 token here:
-const TOKEN_ADDRESS = "0x491708aC0aC935E75b3bE8281639D5165e03A8A5";
+const TOKEN_ADDRESS = "0xA1B809005E589f81dE6EF9F48D67e35606c05fC3";
 
 // Wallet private key
 const EMPTY_WALLET_PRIVATE_KEY =
@@ -44,10 +44,10 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 
   // Encoding the "ApprovalBased" paymaster flow's input
   const paymasterParams = utils.getPaymasterParams(PAYMASTER_ADDRESS, {
-    type: "ApprovalBased",
-    token: TOKEN_ADDRESS,
+    type: "General",
+    // token: TOKEN_ADDRESS,
     // set minimalAllowance as we defined in the paymaster contract
-    minimalAllowance: ethers.BigNumber.from(1),
+    // minimalAllowance: ethers.BigNumber.from(1),
     // empty bytes as testnet paymaster does not use innerInput
     innerInput: new Uint8Array(),
   });
