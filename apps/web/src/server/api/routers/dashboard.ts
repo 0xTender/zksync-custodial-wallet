@@ -29,8 +29,7 @@ export const dashboardRouter = createTRPCRouter({
 
       const parsedChainId = z.enum(["280", "270"]).parse(chainId.toString());
 
-      const Registry = addresses[parsedChainId as keyof typeof addresses]
-        .Registry as string;
+      const Registry = addresses[parsedChainId].Registry;
 
       const [from, paymaster] = ethers.utils.defaultAbiCoder.decode(
         ["address", "address", "uint256"],
