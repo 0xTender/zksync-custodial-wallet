@@ -7,8 +7,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model StructuredEvents {
-  id Int @id @default(autoincrement())
+model User {
+  id      Int    @id @default(autoincrement())
+  address String @unique @db.VarChar(64)
+
+  paymasters Paymaster[]
+}
+
+model Access {
+  id        Int    @id @default(autoincrement())
+  apiSecret String @db.VarChar(128)
+  apiKey    String @db.VarChar(128)
+
+  paymaster   Paymaster @relation(fields: [paymasterId], references: [id])
+  paymasterId Int
+}
+
+model Paymaster {
+  id      Int   @id @default(autoincrement())
+  Owner   User? @relation(fields: [ownerId], references: [id])
+  ownerId Int?
+
+  address String @unique @db.VarChar(64)
+  chainId Int
+
+  Contracts Contract[]
+  Access    Access[]
+}
+
+model Contract {
+  id               Int               @id @default(autoincrement())
+  paymaster        Paymaster         @relation(fields: [paymasterId], references: [id])
+  paymasterId      Int
+  AllowedFunctions AllowedFunction[]
+
+  @@map("Contracts")
+}
+
+model AllowedFunction {
+  id          Int      @id @default(autoincrement())
+  contract    Contract @relation(fields: [contractsId], references: [id])
+  contractsId Int
+
+  @@map("AllowedFunctions")
 }
 
 model Contract_pm {
@@ -41,28 +82,34 @@ model Event_pm {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  E_MessageEvent_Hello E_MessageEvent_Hello[]
+  E_CreatePaymaster_Registry_Testnet E_CreatePaymaster_Registry_Testnet[]
 
-  E_StructEvent_Hello E_StructEvent_Hello[]
+  E_OwnershipTransferred_Registry_Testnet E_OwnershipTransferred_Registry_Testnet[]
 }
 
-model E_MessageEvent_Hello {
+model E_CreatePaymaster_Registry_Testnet {
   id       Int      @id @default(autoincrement())
   Event_pm Event_pm @relation(fields: [eventId], references: [id])
   eventId  String   @unique
 
-  A_message String @db.VarChar(1000)
+  A_from String @db.VarChar(1000)
+
+  A_paymaster String @db.VarChar(1000)
+
+  A_limit_per_user String @db.VarChar(1000)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model E_StructEvent_Hello {
+model E_OwnershipTransferred_Registry_Testnet {
   id       Int      @id @default(autoincrement())
   Event_pm Event_pm @relation(fields: [eventId], references: [id])
   eventId  String   @unique
 
-  A_eventStruct String @db.VarChar(1000)
+  A_previousOwner String @db.VarChar(1000)
+
+  A_newOwner String @db.VarChar(1000)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

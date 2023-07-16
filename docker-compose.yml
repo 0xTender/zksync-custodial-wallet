@@ -42,7 +42,17 @@ services:
       - DATABASE_URL=postgres://postgres@postgres/zksync_local
       - ETH_CLIENT_WEB3_URL=http://geth:8545
 
+  mysql:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql-data:/var/lib/mysql
+
 volumes:
   geth-data:
   postgres:
   zksync:
+  mysql-data:

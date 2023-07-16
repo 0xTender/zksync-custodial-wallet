@@ -6,7 +6,7 @@ import "@app/styles/globals.css";
 import WagmiProvider from "@app/components/lib/WagmiProvider";
 import AuthProvider from "@app/components/lib/AuthProvider";
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   return (
     <WagmiProvider>
       <AuthProvider>
