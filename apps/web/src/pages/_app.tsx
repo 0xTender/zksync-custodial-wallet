@@ -8,6 +8,7 @@ import AuthProvider from "@app/components/providers/AuthProvider";
 
 import { Outfit as Font } from "next/font/google";
 import { twMerge } from "tailwind-merge";
+import Head from "next/head";
 
 const fontFamily = Font({
   weight: ["200", "300", "500"],
@@ -19,6 +20,11 @@ const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
     <WagmiProvider>
       <AuthProvider>
         <main className={twMerge(fontFamily.className, "h-full")}>
+          <Head>
+            <title>0xTender</title>
+            <meta name="description" content="0xTender" />
+            <link rel="icon" href="/logo.png" />
+          </Head>
           <Component {...pageProps} />
         </main>
       </AuthProvider>
