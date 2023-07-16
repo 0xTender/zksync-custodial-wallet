@@ -11,7 +11,8 @@ export default function AuthProvider({ children }: PropsWithChildren<unknown>) {
     } else {
       void router.push("/");
     }
-  }, [isConnected, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
   return <>{children}</>;
 }
