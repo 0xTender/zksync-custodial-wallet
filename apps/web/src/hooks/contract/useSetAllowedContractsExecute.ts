@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { type Abi } from "viem";
 import { useGetExecutableFunctions } from "./useGetExecutableFunctions";
-import { useSetAllowedContractsPrepare } from "@app/hooks/useSetAllowedContractsPrepare";
+import { useSetAllowedContractsPrepare } from "@app/hooks/contract/useSetAllowedContractsPrepare";
 
 export const useSetAllowedContractsExecute = ({
   address,

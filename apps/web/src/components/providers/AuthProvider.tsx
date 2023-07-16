@@ -4,6 +4,7 @@ import { useAccount } from "wagmi";
 
 export default function AuthProvider({ children }: PropsWithChildren<unknown>) {
   const router = useRouter();
+
   const { isConnected } = useAccount();
   useEffect(() => {
     if (isConnected) {
