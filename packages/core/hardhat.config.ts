@@ -29,6 +29,7 @@ const zkSyncTestnet = {
   // contract verification endpoint
   verifyURL:
     "https://zksync2-testnet-explorer.zksync.dev/contract_verification",
+  accounts: [process.env.DEPLOYER_PRIVATE_KEY ?? ""],
 };
 
 const hardhatConfig: HardhatUserConfig = {
@@ -51,6 +52,7 @@ const hardhatConfig: HardhatUserConfig = {
   namedAccounts: {
     deployer: {
       default: "0x36615Cf349d7F6344891B1e7CA7C72883F5dc049",
+      zkSyncTestnet: "0x963C564c5B503eba38aD4c46DF2560EcdA0DA038",
     },
     admin: {
       default: 1,
