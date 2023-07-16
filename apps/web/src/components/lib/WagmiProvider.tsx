@@ -1,5 +1,3 @@
-"use client";
-
 import { WagmiConfig, createConfig, mainnet } from "wagmi";
 import { createPublicClient, http } from "viem";
 import { type PropsWithChildren } from "react";
