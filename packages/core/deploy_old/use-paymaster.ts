@@ -3,14 +3,15 @@ import * as ethers from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 // Put the address of the deployed paymaster here
-const PAYMASTER_ADDRESS = "0x4da8b63F2Ce2331065E9EE1ED79Fe157B2Bd3286";
+// 0xaE7F6b4f2fF21fC5Fc52932A25faea11Bf5F509e
+const PAYMASTER_ADDRESS = "0xaE7F6b4f2fF21fC5Fc52932A25faea11Bf5F509e";
 
 // Put the address of the ERC20 token here:
-const TOKEN_ADDRESS = "0x8b6E8186dE74fe0128C0a6a3B2733c1365f4c9e2";
+const TOKEN_ADDRESS = "0x491708aC0aC935E75b3bE8281639D5165e03A8A5";
 
 // Wallet private key
 const EMPTY_WALLET_PRIVATE_KEY =
-  "0x3f458728ae27bd480f34e0ac207f485490f38c6a28c4a04fe132e14496e0187c";
+  "0xd6c493b7f1314b65b291f14161baebdd01e64d7c764c4218c774680f310ee646";
 
 function getToken(hre: HardhatRuntimeEnvironment, wallet: Wallet) {
   const artifact = hre.artifacts.readArtifactSync("MyERC20");
@@ -63,7 +64,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   console.log("Transaction fee estimation is :>> ", fee.toString());
 
   console.log(`Minting 5 tokens for empty wallet via paymaster...`);
-  await (
+  const r = await (
     await erc20.mint(emptyWallet.address, 5, {
       // paymaster info
       customData: {
@@ -72,6 +73,8 @@ export default async function (hre: HardhatRuntimeEnvironment) {
       },
     })
   ).wait();
+  console.log(r);
+  console.log(JSON.stringify(r));
 
   console.log(
     `Paymaster ERC20 token balance is now ${await erc20.balanceOf(

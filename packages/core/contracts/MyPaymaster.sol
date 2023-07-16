@@ -27,6 +27,8 @@ contract MyPaymaster is IPaymaster {
         allowedToken = _erc20;
     }
 
+    event Callee(address);
+
     function validateAndPayForPaymasterTransaction(
         bytes32,
         bytes32,
@@ -35,7 +37,7 @@ contract MyPaymaster is IPaymaster {
         external
         payable
         onlyBootloader
-        returns (bytes4 magic, bytes memory context)
+        returns (bytes4 magic, bytes memory _context)
     {
         // By default we consider the transaction as accepted.
         magic = PAYMASTER_VALIDATION_SUCCESS_MAGIC;
@@ -47,6 +49,10 @@ contract MyPaymaster is IPaymaster {
         bytes4 paymasterInputSelector = bytes4(
             _transaction.paymasterInput[0:4]
         );
+
+        address callee = address(uint160(_transaction.to));
+        emit Callee(callee);
+
         if (paymasterInputSelector == IPaymasterFlow.approvalBased.selector) {
             // While the transaction data consists of address, uint256 and bytes data,
             // the data is not needed for this paymaster
