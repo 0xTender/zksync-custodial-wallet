@@ -29,6 +29,7 @@ const zkSyncTestnet = {
   // contract verification endpoint
   verifyURL:
     "https://zksync2-testnet-explorer.zksync.dev/contract_verification",
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
   accounts: [process.env.DEPLOYER_PRIVATE_KEY ?? ""],
 };
 

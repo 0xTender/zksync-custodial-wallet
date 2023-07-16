@@ -48,6 +48,7 @@ abstract contract BasePaymaster is IBasePaymaster, Ownable {
 
         for (uint i = 0; i < selectors.length; i++) {
             allowedContracts[contracts[i]][selectors[i]] = allowed[i];
+            emit SetAllowedContracts(contracts[i], selectors[i], allowed[i]);
         }
     }
 

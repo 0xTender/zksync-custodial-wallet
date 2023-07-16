@@ -14,7 +14,7 @@ const EMPTY_WALLET_PRIVATE_KEY =
   "0xd6c493b7f1314b65b291f14161baebdd01e64d7c764c4218c774680f310ee646";
 
 function getToken(hre: HardhatRuntimeEnvironment, wallet: Wallet) {
-  const artifact = hre.artifacts.readArtifactSync("MyERC20");
+  const artifact = hre.artifacts.readArtifactSync("TestERC20");
   return new ethers.Contract(TOKEN_ADDRESS, artifact.abi, wallet);
 }
 

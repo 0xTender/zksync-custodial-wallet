@@ -14,7 +14,7 @@ const fontFamily = Font({
   subsets: ["latin"],
 });
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   return (
     <WagmiProvider>
       <AuthProvider>

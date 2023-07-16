@@ -7,7 +7,7 @@ import { deployZkSync } from "../utils/deployment";
 const deploy_function: DeployFunction = async function (
   hre: HardhatRuntimeEnvironment
 ) {
-  await deployZkSync(hre, "MyERC20", {
+  await deployZkSync(hre, "TestERC20", {
     from: "deployer",
     args: ["MyToken", "MyToken", 18],
   });
