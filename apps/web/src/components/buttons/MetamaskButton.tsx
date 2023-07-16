@@ -1,12 +1,22 @@
 import { useConfig, useConnect } from "wagmi";
 import MetamaskIcon from "@app/components/icons/MetamaskIcon";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 
 export default function MetamaskButton() {
   const { connectors } = useConfig();
   const { connect, status } = useConnect({
     connector: connectors[0],
   });
+
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setVisible(status === "loading");
+    }, 100);
+    return () => clearTimeout(id);
+  }, [status]);
 
   return (
     <>
@@ -20,7 +30,7 @@ export default function MetamaskButton() {
         </div>
         <ArrowRightIcon className="h-4 w-4 duration-300 group-hover:ml-[66%]" />
       </button>
-      {status === "loading" && (
+      {visible && (
         <div className="absolute left-1/2 top-1/2 grid h-full w-full -translate-x-1/2 -translate-y-1/2 transform select-none place-content-center bg-black/50 backdrop-blur">
           <div className="animate-pulse rounded-full bg-white p-8">
             <MetamaskIcon className="h-32 w-32" />
