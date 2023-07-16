@@ -76,7 +76,7 @@ export default function Register({
                 Create Paymaster
               </span>
             </div>
-            <ArrowRightIcon className="h-4 w-4 duration-300 group-hover:ml-[72%]" />
+            <ArrowRightIcon className="h-4 w-4 duration-300 group-hover:ml-[53%]" />
           </button>
         </form>
       )}
