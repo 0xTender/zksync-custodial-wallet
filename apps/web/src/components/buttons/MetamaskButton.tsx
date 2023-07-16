@@ -21,7 +21,7 @@ export default function MetamaskButton() {
   return (
     <>
       <button
-        className="group flex w-full items-center justify-start gap-3 rounded-md border border-orange-600 px-3 py-2 text-orange-500 duration-150  hover:bg-orange-800/10 hover:outline hover:outline-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+        className="group flex w-full items-center justify-start gap-3 rounded-md border border-blue-600 px-3 py-2 text-blue-500 duration-150  hover:bg-blue-800/10 hover:outline hover:outline-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
         onClick={() => connect()}
       >
         <div className="inline-flex gap-2">
