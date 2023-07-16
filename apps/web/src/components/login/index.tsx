@@ -1,5 +1,4 @@
 import LoginButtons from "./LoginButtons";
-import LoginForm from "./LoginForm";
 
 export default function Login() {
   return (
@@ -11,7 +10,6 @@ export default function Login() {
               Sign in to your account
             </h2>
           </div>
-          <LoginForm />
           <LoginButtons />
         </div>
       </div>

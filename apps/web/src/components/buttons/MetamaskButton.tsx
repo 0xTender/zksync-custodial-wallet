@@ -6,6 +6,7 @@ export default function MetamaskButton() {
   const { connect, status } = useConnect({
     connector: connectors[0],
   });
+
   return (
     <>
       <button
