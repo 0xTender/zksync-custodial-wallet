@@ -7,6 +7,7 @@ const deploy_function: DeployFunction = async function (
   hre: HardhatRuntimeEnvironment
 ) {
   const { deployments } = hre;
+
   const { getOrNull } = deployments;
 
   const isDeployed = await getOrNull("Paymaster");

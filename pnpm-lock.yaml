@@ -6,6 +6,10 @@ settings:
 
 importers:
   .:
+    dependencies:
+      solc:
+        specifier: 0.8.17
+        version: 0.8.17
     devDependencies:
       dotenv-cli:
         specifier: latest
@@ -162,8 +166,8 @@ importers:
         specifier: ^8.44.0
         version: 8.44.0
       solc:
-        specifier: ^0.8.20
-        version: 0.8.20
+        specifier: 0.8.17
+        version: 0.8.17
     devDependencies:
       "@ethersproject/abi":
         specifier: ^5.7.0
@@ -11904,10 +11908,10 @@ packages:
       - debug
     dev: true
 
-  /solc@0.8.20:
+  /solc@0.8.17:
     resolution:
       {
-        integrity: sha512-fPRnGspIEqmhu63RFO3pc79sLA7ZmzO0Uy0L5l6hEt2wAsq0o7UV6pXkAp3Mfv9IBhg7Px/oTu3a+y4gs3BWrQ==,
+        integrity: sha512-Dtidk2XtTTmkB3IKdyeg6wLYopJnBVxdoykN8oP8VY3PQjN16BScYoUJTXFm2OP7P0hXNAqWiJNmmfuELtLf8g==,
       }
     engines: { node: ">=10.0.0" }
     hasBin: true

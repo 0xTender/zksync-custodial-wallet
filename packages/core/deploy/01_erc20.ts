@@ -28,6 +28,12 @@ const deploy_function: DeployFunction = async function (
     "MyToken",
     18,
   ]);
+
+  await deployments.save("ERC20", {
+    abi: erc20Artifact.abi,
+    address: erc20.address,
+    args: ["MyToken", "MyToken", 18],
+  });
   console.log(`ERC20 address: ${erc20.address}`);
 };
 

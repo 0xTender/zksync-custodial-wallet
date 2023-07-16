@@ -28,5 +28,8 @@
     "wait-port": "^1.0.4"
   },
   "packageManager": "pnpm@7.15.0",
-  "name": "web-suite-turbo"
+  "name": "web-suite-turbo",
+  "dependencies": {
+    "solc": "0.8.17"
+  }
 }
