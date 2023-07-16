@@ -1,8 +1,11 @@
 import { z } from "zod";
 import { Field, Formik } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { ArrowRightIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import { useAccount } from "wagmi";
+import {
+  ArrowRightIcon,
+  IdentificationIcon,
+} from "@heroicons/react/24/outline";
+import { useChainId } from "wagmi";
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
 
@@ -12,12 +15,12 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export default function Onboarding({
-  setName,
+export default function Register({
+  setAppName,
 }: {
-  setName: (name: string) => void;
+  setAppName: (name: string) => void;
 }) {
-  const { address } = useAccount();
+  const id = useChainId();
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -29,14 +32,14 @@ export default function Onboarding({
     <Formik<FormValues>
       initialValues={{ name: "" }}
       validationSchema={toFormikValidationSchema(schema)}
-      onSubmit={(values) => setName(values.name)}
+      onSubmit={(values) => setAppName(values.name)}
       validateOnMount
     >
       {(formik) => (
         <form onSubmit={formik.handleSubmit} className="grid gap-4">
           <div className="grid gap-1">
             <label className="text-sm font-extralight text-zinc-200">
-              Username
+              App Name
             </label>
             <Field
               name="name"
@@ -46,11 +49,11 @@ export default function Onboarding({
           </div>
           <div className="grid gap-1">
             <label className="text-sm font-extralight text-zinc-200">
-              Address
+              Network
             </label>
             <input
               disabled
-              value={address}
+              value={`${id}  -  ZKSync Era Network`}
               name="address"
               placeholder="Enter your name"
               className="rounded-md border border-orange-500 bg-orange-500/20 p-2 px-3 py-2 text-orange-500 placeholder-orange-700/50"
@@ -68,8 +71,10 @@ export default function Onboarding({
             disabled={formik.isSubmitting || !formik.isValid}
           >
             <div className="inline-flex items-center gap-2">
-              <UserCircleIcon className="h-5 w-5" />
-              <span className="text-base font-semibold leading-6">Submit</span>
+              <IdentificationIcon className="h-5 w-5" />
+              <span className="text-base font-semibold leading-6">
+                Create Paymaster
+              </span>
             </div>
             <ArrowRightIcon className="h-4 w-4 duration-300 group-hover:ml-[72%]" />
           </button>
