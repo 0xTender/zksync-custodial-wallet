@@ -161,6 +161,9 @@ importers:
       eslint:
         specifier: ^8.44.0
         version: 8.44.0
+      solc:
+        specifier: ^0.8.20
+        version: 0.8.20
     devDependencies:
       "@ethersproject/abi":
         specifier: ^5.7.0
@@ -4805,7 +4808,6 @@ packages:
       {
         integrity: sha512-LTQ/SGc+s0Xc0Fu5WaKnR0YiygZkm9eKFvyS+fRsU7/ZWFF8ykFM6Pc9aCVf1+xasOOZpO3BAVgVrKvsqKHV7w==,
       }
-    dev: true
 
   /command-line-args@5.2.1:
     resolution:
@@ -4855,6 +4857,14 @@ packages:
       }
     engines: { node: ">= 6" }
     dev: true
+
+  /commander@8.3.0:
+    resolution:
+      {
+        integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==,
+      }
+    engines: { node: ">= 12" }
+    dev: false
 
   /commander@9.5.0:
     resolution:
@@ -7220,7 +7230,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
-    dev: true
 
   /for-each@0.3.3:
     resolution:
@@ -9344,7 +9353,6 @@ packages:
         integrity: sha512-S3UwM3yj5mtUSEfP41UZmt/0SCoVYUcU1rkXv+BQ5Ig8ndL4sPoJNBUJERafdPb5jjHJGuMgytgKvKIf58XNBw==,
       }
     engines: { node: ">= 0.10.0" }
-    dev: true
 
   /merge-descriptors@1.0.1:
     resolution:
@@ -10374,7 +10382,6 @@ packages:
         integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==,
       }
     engines: { node: ">=0.10.0" }
-    dev: true
 
   /p-cancelable@1.1.0:
     resolution:
@@ -11645,7 +11652,6 @@ packages:
         integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==,
       }
     hasBin: true
-    dev: true
 
   /semver@6.3.0:
     resolution:
@@ -11897,6 +11903,25 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: true
+
+  /solc@0.8.20:
+    resolution:
+      {
+        integrity: sha512-fPRnGspIEqmhu63RFO3pc79sLA7ZmzO0Uy0L5l6hEt2wAsq0o7UV6pXkAp3Mfv9IBhg7Px/oTu3a+y4gs3BWrQ==,
+      }
+    engines: { node: ">=10.0.0" }
+    hasBin: true
+    dependencies:
+      command-exists: 1.2.9
+      commander: 8.3.0
+      follow-redirects: 1.15.2(debug@4.3.4)
+      js-sha3: 0.8.0
+      memorystream: 0.3.1
+      semver: 5.7.1
+      tmp: 0.0.33
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /solidity-coverage@0.7.22:
     resolution:
@@ -12626,7 +12651,6 @@ packages:
     engines: { node: ">=0.6.0" }
     dependencies:
       os-tmpdir: 1.0.2
-    dev: true
 
   /to-buffer@1.1.1:
     resolution:

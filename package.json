@@ -10,6 +10,7 @@
     "heisenberg": "dotenv -- pnpm --filter frontend run heisenberg",
     "db:push": "dotenv -- pnpm --filter frontend run db:push",
     "start:worker": "dotenv -- pnpm --filter frontend run start:worker",
+    "compile": "dotenv -- pnpm --filter core run compile",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
