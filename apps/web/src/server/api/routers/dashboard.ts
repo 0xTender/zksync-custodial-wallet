@@ -7,10 +7,15 @@ import { env } from "@app/env.mjs";
 import { RegistryABI, addresses } from "@root/core";
 
 export const dashboardRouter = createTRPCRouter({
+  setAllowedContracts: publicProcedure
+    .input(z.object({ tx: z.string() }))
+    .mutation(() => {
+      //
+      return {};
+    }),
   createPaymaster: publicProcedure
     .input(z.object({ tx: z.string() }))
-    .query(async ({ input, ctx }) => {
-      // get the paymaster from the tx
+    .mutation(async ({ input, ctx }) => {
       const provider = new ethers.providers.JsonRpcProvider(env.RPC_URL);
 
       const iface = new ethers.utils.Interface(RegistryABI);

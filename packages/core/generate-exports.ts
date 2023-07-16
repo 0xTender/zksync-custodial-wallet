@@ -1,14 +1,31 @@
 import { readdirSync, readFileSync, writeFileSync, statSync } from "fs";
+
 import { join } from "path";
 
 const directoryPath = join(__dirname, "deployments", "zkSyncTestnet");
-const abiString = readdirSync(directoryPath)
-  .filter((e) => e.endsWith(".json"))
-  .map((e) => [join(directoryPath, e), e])
-  .map((e) => [
-    JSON.parse(readFileSync(e[0]).toString()).abi,
-    e[1].replace(".json", ""),
-  ])
+
+const paymasterABI = JSON.parse(
+  readFileSync(
+    join(
+      __dirname,
+      "artifacts-zk",
+      "contracts",
+      "Paymaster.sol",
+      "Paymaster.json"
+    )
+  ).toString()
+).abi;
+
+const abiString = [
+  [paymasterABI, "Paymaster"],
+  ...readdirSync(directoryPath)
+    .filter((e) => e.endsWith(".json"))
+    .map((e) => [join(directoryPath, e), e])
+    .map((e) => [
+      JSON.parse(readFileSync(e[0]).toString()).abi,
+      e[1].replace(".json", ""),
+    ]),
+]
   .map((e) => {
     return `export const ${e[1]}ABI = ${JSON.stringify(
       e[0],
@@ -53,7 +70,8 @@ const addressesString = `export const addresses = ${JSON.stringify(
   undefined,
   2
 )}`;
+
 writeFileSync(
   join(__dirname, "src", "core.ts"),
-  addressesString + "\n" + abiString
+  addressesString + "\n" + abiString + "\n"
 );

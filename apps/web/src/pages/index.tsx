@@ -1,9 +1,9 @@
 import Login from "@app/components/login";
-import { api } from "@app/utils/api";
+import { useGetExecutableFunctions } from "@app/hooks/useGetExecutableFunctions";
+import { PaymasterABI } from "@root/core";
 
 export default function LoginPage() {
-  api.dashboard.createPaymaster.useQuery({
-    tx: "0x8cc83fd620a4c4f9c5fe88a777b0c22689848d42bbd7d8b311fa2f33fb96b675",
-  });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  useGetExecutableFunctions(PaymasterABI);
   return <Login />;
 }
