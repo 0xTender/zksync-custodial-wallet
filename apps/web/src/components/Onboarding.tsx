@@ -32,7 +32,7 @@ export default function Onboarding() {
         <form onSubmit={formik.handleSubmit} className="grid gap-4">
           <div className="grid gap-1">
             <label className="text-sm font-extralight text-zinc-200">
-              Name
+              Username
             </label>
             <Field
               name="name"
