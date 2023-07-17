@@ -1,4 +1,4 @@
-# Candy
+# Custodial Wallet
 
 Steps to run
 
