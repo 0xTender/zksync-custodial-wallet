@@ -13,6 +13,19 @@ export default function MetamaskButton() {
 
   const { address } = useAccount();
 
+  const { isSuccess: isSuccessDetails } = api.user.details.useQuery(
+    {
+      address: address || "",
+    },
+    {
+      enabled: !!address,
+      retry(failureCount, error) {
+        console.error(error);
+        return failureCount < 3;
+      },
+    }
+  );
+
   const { setAuthenticated } = useContext(AuthContext);
 
   const { mutate: login, isLoading: isFetching } = api.user.login.useMutation({
@@ -56,6 +69,10 @@ export default function MetamaskButton() {
   }, [status, signMessage, address]);
 
   useEffect(() => {
+    if (isSuccessDetails) {
+      setAuthenticated(true);
+    }
+
     if (!isSignSuccess || !timestamp || !address) {
       return;
     }
@@ -68,7 +85,7 @@ export default function MetamaskButton() {
       },
       signature: data ?? "",
     });
-  }, [isSignSuccess, timestamp, address, data, login]);
+  }, [isSignSuccess, timestamp, address, data, login, isSuccessDetails]);
 
   return (
     <>

@@ -22,7 +22,7 @@ export default function AuthProvider({ children }: PropsWithChildren<unknown>) {
 
   useEffect(() => {
     if (isConnected && authenticated === true) {
-      void router.push("/home");
+      void router.push("/onboarding");
     } else {
       void router.push("/");
     }
