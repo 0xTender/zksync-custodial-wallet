@@ -85,6 +85,19 @@ export const paymasterRouter = createTRPCRouter({
           ownerId: ctx.session.user.id,
         },
       });
-      return paymaster;
+
+      const contract = await ctx.prisma.contract.findMany({
+        where: {
+          paymasterId: paymaster.id,
+        },
+        select: {
+          AllowedFunctions: true,
+          name: true,
+          id: true,
+          address: true,
+        },
+      });
+
+      return { paymaster, contract };
     }),
 });

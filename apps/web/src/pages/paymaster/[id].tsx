@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { useGetExecutableFunctions } from "@app/hooks/contract/useGetExecutableFunctions";
 import { type Abi } from "viem";
 import { useSetAllowedContractsExecute } from "@app/hooks/contract/useSetAllowedContractsExecute";
-import Modal from "@app/components/Modal";
+import { shortenAddress } from "@app/utils/web3";
 
 const schema = z.object({
   name: z.string(),
@@ -519,7 +519,7 @@ export default function PaymasterId() {
       <div className="flex h-full flex-row justify-between bg-slate-900">
         <div className="flex-1 py-12 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4">
-            <h1>{data && data.name}</h1>
+            <h1>{data && data.paymaster.name}</h1>
             <button
               suppressHydrationWarning
               className={twMerge(
@@ -533,11 +533,32 @@ export default function PaymasterId() {
               Add Contracts
             </button>
           </div>
+          <div>
+            <h1 className="my-2">Enabled Contracts</h1>
+            <div className="flex gap-2">
+              {data &&
+                data.contract.map((c) => {
+                  return (
+                    <div
+                      key={c.id}
+                      className={twMerge(
+                        "border-blue-600 text-slate-500 opacity-100 marker:bg-blue-500",
+                        "rounded-lg border border-slate-600 bg-slate-800/25 px-4 py-2",
+                        "flex select-none flex-col gap-2"
+                      )}
+                    >
+                      <div>{c.name}</div>
+                      <div>{shortenAddress(c.address as string)}</div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
           <div></div>
         </div>
         {open && (
           <div className="h-full overflow-x-scroll bg-slate-800 py-12 sm:max-w-[480px] sm:px-6 md:w-[480px] lg:px-8">
-            <AddContract address={data?.address}></AddContract>
+            <AddContract address={data?.paymaster?.address}></AddContract>
           </div>
         )}
       </div>
