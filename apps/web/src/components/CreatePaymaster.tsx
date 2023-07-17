@@ -8,6 +8,7 @@ import {
 import { useChainId } from "wagmi";
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
+import { useCreatePaymaster } from "@app/hooks/contract/useCreatePaymaster";
 
 const schema = z.object({
   name: z.string().min(8).max(64),
@@ -28,11 +29,24 @@ export default function CreatePaymaster({
     setMounted(true);
   }, []);
 
+  const [app, setApp] = useState<string>();
+
+  const { createPaymaster, isSuccess } = useCreatePaymaster();
+
+  useEffect(() => {
+    if (!isSuccess || !app) return;
+
+    setAppName(app);
+  }, [isSuccess, app, setAppName]);
+
   return (
     <Formik<FormValues>
       initialValues={{ name: "" }}
       validationSchema={toFormikValidationSchema(schema)}
-      onSubmit={(values) => setAppName(values.name)}
+      onSubmit={(values) => {
+        createPaymaster();
+        setApp(values.name);
+      }}
       validateOnMount
     >
       {(formik) => (

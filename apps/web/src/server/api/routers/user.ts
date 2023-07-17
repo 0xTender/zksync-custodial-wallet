@@ -3,6 +3,9 @@ import { TRPCError } from "@trpc/server";
 import { recoverMessageAddress } from "viem";
 import { z } from "zod";
 
+import * as jwt from "jsonwebtoken";
+import { env } from "@app/env.mjs";
+
 export const userRouter = createTRPCRouter({
   registerUser: publicProcedure
     .input(
@@ -44,6 +47,46 @@ export const userRouter = createTRPCRouter({
       });
 
       return user;
+    }),
+  login: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+        signature: z.string(),
+        message: z.object({ address: z.string(), timestamp: z.number() }),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.prisma.user.findFirstOrThrow({
+        where: {
+          address: input.address,
+        },
+      });
+
+      const recoveredAddress = await recoverMessageAddress({
+        message: JSON.stringify(input.message),
+        signature: input.signature as `0x${string}`,
+      });
+
+      if (
+        recoveredAddress !== input.address ||
+        input.message.address !== recoveredAddress ||
+        input.message.timestamp + 30_0000 < Date.now()
+      ) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          cause: "Signature does not match address.",
+        });
+      }
+
+      return {
+        token: jwt.sign(
+          JSON.stringify({
+            id: user.id,
+          }),
+          env.SECRET
+        ),
+      };
     }),
   details: publicProcedure
     .input(

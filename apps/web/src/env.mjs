@@ -10,6 +10,7 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     RPC_URL: z.string(),
+    SECRET: z.string().optional().default("secret"),
   },
 
   /**
@@ -18,6 +19,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
+    NEXT_PUBLIC_CHAIN_ID: z.enum(["270", "280"]).optional().default("280"),
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
   },
 
@@ -29,6 +31,8 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     RPC_URL: process.env.RPC_URL,
+    SECRET: process.env.SECRET ?? "secret",
+    NEXT_PUBLIC_CHAIN_ID: process.env.CHAIN_ID,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
 });

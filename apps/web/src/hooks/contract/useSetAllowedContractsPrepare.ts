@@ -1,9 +1,11 @@
 import { PaymasterABI } from "@root/core";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 
-export const useSetAllowedContractsPrepare = (address: `0x${string}`) => {
+export const useSetAllowedContractsPrepare = (
+  paymasterAddress: `0x${string}`
+) => {
   const { write: setAllowedContracts, data } = useContractWrite({
-    address,
+    address: paymasterAddress,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     abi: PaymasterABI,
     functionName: "setAllowedContracts",

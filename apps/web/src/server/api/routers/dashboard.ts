@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "@app/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@app/server/api/trpc";
 
 import { ethers } from "ethers";
 import { env } from "@app/env.mjs";
@@ -12,6 +16,15 @@ export const dashboardRouter = createTRPCRouter({
     .mutation(() => {
       //
       return {};
+    }),
+  getPaymasters: protectedProcedure
+    .input(z.object({}))
+    .query(async ({ ctx }) => {
+      return ctx.prisma.paymaster.findMany({
+        where: {
+          ownerId: ctx.session.user.id,
+        },
+      });
     }),
   createPaymaster: publicProcedure
     .input(z.object({ tx: z.string() }))
