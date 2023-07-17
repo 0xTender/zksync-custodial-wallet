@@ -35,6 +35,7 @@ model Paymaster {
 
   Contracts Contract[]
   Access    Access[]
+  Wallet    Wallet[]
 }
 
 model Contract {
@@ -52,4 +53,14 @@ model AllowedFunction {
   contractsId Int
 
   @@map("AllowedFunctions")
+}
+
+model Wallet {
+  id                   Int       @id @default(autoincrement())
+  userId               String    @db.VarChar(128)
+  paymaster            Paymaster @relation(fields: [paymasterId], references: [id])
+  paymasterId          Int
+  privateKey           String    @db.VarChar(128)
+  decryptionKeyPartial String    @db.VarChar(128)
+  address              String    @db.VarChar(128)
 }

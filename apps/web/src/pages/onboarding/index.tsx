@@ -28,7 +28,7 @@ export default function App() {
     address: address || "",
   });
   const step = useMemo(() => {
-    const username = data?.username as string | undefined;
+    const username = data?.username;
     if (!name && username !== undefined) {
       setName(username);
       return steps.register;
