@@ -1,7 +1,7 @@
 [
   {
-    "name": "Hello",
-    "path": "./packages/core/deployments/localhost/Hello.json",
-    "rpc": "http://127.0.0.1:8545/"
+    "name": "Registry_Testnet",
+    "path": "./packages/core/deployments/zkSyncTestnet/Registry.json",
+    "rpc": "https://zksync2-testnet.zksync.dev"
   }
 ]
