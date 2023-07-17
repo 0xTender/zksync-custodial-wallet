@@ -43,7 +43,7 @@ export const api = createTRPCNext<AppRouter>({
           url: `${getBaseUrl()}/api/trpc`,
           headers: () => {
             return {
-              authorization: localStorage.getItem("token") ?? "",
+              authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
             };
           },
         }),

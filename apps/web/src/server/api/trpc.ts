@@ -17,6 +17,7 @@
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 import { prisma } from "@app/server/db";
+import * as jwt from "jsonwebtoken";
 
 type CreateContextOptions = {
   session: {
@@ -49,9 +50,21 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
+export const createTRPCContext = ({ req }: CreateNextContextOptions) => {
+  let session: CreateContextOptions["session"] = null;
+  if (req.headers.authorization) {
+    const bearerToken = req.headers.authorization.split(" ")[1];
+    if (bearerToken) {
+      const decoded = jwt.verify(bearerToken, env.SECRET) as { id: number };
+      session = {
+        user: {
+          id: decoded.id,
+        },
+      };
+    }
+  }
   return createInnerTRPCContext({
-    session: null,
+    session,
   });
 };
 
@@ -65,6 +78,7 @@ export const createTRPCContext = (_opts: CreateNextContextOptions) => {
 import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { env } from "@app/env.mjs";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,

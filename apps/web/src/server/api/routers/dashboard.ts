@@ -26,7 +26,7 @@ export const dashboardRouter = createTRPCRouter({
         },
       });
     }),
-  createPaymaster: publicProcedure
+  createPaymaster: protectedProcedure
     .input(z.object({ tx: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const provider = new ethers.providers.JsonRpcProvider(env.RPC_URL);

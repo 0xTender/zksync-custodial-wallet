@@ -1,4 +1,8 @@
-import { createTRPCRouter, publicProcedure } from "@app/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@app/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { recoverMessageAddress } from "viem";
 import { z } from "zod";
@@ -88,7 +92,7 @@ export const userRouter = createTRPCRouter({
         ),
       };
     }),
-  details: publicProcedure
+  details: protectedProcedure
     .input(
       z.object({
         address: z.string(),
