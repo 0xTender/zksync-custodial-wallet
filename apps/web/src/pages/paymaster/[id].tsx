@@ -13,6 +13,7 @@ import { useGetExecutableFunctions } from "@app/hooks/contract/useGetExecutableF
 import { type Abi } from "viem";
 import { useSetAllowedContractsExecute } from "@app/hooks/contract/useSetAllowedContractsExecute";
 import { shortenAddress } from "@app/utils/web3";
+import Link from "next/link";
 
 const schema = z.object({
   name: z.string(),
@@ -503,6 +504,46 @@ const AddContract = (data: { address: string | undefined }) => {
   );
 };
 
+const Contract = (c: {
+  selected: boolean;
+  AllowedFunctions: {
+    id: number;
+    contractsId: number;
+    selector: string;
+    name: string;
+  }[];
+  name: string;
+  id: number;
+  address: string;
+}) => {
+  return (
+    <>
+      <div>{c.name}</div>
+      <div>{c.selected ? c.address : shortenAddress(c.address)}</div>
+      {c.selected && (
+        <div className="flex flex-col gap-y-1">
+          {c.AllowedFunctions.map((selector) => {
+            return (
+              <>
+                <div
+                  className={twMerge(
+                    "cursor-pointer rounded-md border border-blue-500 bg-blue-500/20",
+                    "px-3 py-1",
+                    "text-blue-500 placeholder-blue-700/50"
+                  )}
+                  key={selector.selector}
+                >
+                  {selector.name}
+                </div>
+              </>
+            );
+          })}
+        </div>
+      )}
+    </>
+  );
+};
+
 export default function PaymasterId() {
   const {
     query: { id },
@@ -514,11 +555,20 @@ export default function PaymasterId() {
 
   const [open, setOpen] = useState<boolean>(false);
 
+  const [state, setState] = useState<"contract" | "api">("contract");
+
+  const { mutate } = api.paymaster.createAccess.useMutation();
+
+  const [contractId, setContractId] = useState<number>();
+
   return (
     <div className="h-full bg-slate-900">
       <div className="flex h-full flex-row justify-between bg-slate-900">
         <div className="flex-1 py-12 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4">
+            <div className="font-thin underline">
+              <Link href="/home">Dashboard</Link>
+            </div>
             <h1>{data && data.paymaster.name}</h1>
             <button
               suppressHydrationWarning
@@ -534,24 +584,102 @@ export default function PaymasterId() {
             </button>
           </div>
           <div>
-            <h1 className="my-2">Enabled Contracts</h1>
+            <div className="my-2 mb-4 flex flex-wrap">
+              <h1
+                onClick={() => setState("contract")}
+                className={twMerge(
+                  "border border-blue-500 px-4 text-blue-500 opacity-100 marker:bg-blue-500",
+                  state === "contract" && "bg-blue-500/20",
+                  "cursor-pointer"
+                )}
+              >
+                Enabled Contracts
+              </h1>
+              <h1
+                onClick={() => {
+                  setState("api");
+                  setOpen(false);
+                }}
+                className={twMerge(
+                  "border border-blue-500 px-4 text-blue-500 opacity-100 marker:bg-blue-500",
+                  state === "api" && "bg-blue-500/20",
+                  "cursor-pointer"
+                )}
+              >
+                Access Keys
+              </h1>
+            </div>
             <div className="flex gap-2">
-              {data &&
+              {state === "contract" &&
+                data &&
                 data.contract.map((c) => {
                   return (
                     <div
+                      onClick={() => {
+                        if (c.id === contractId) {
+                          setContractId(undefined);
+                        } else setContractId(c.id);
+                      }}
                       key={c.id}
                       className={twMerge(
-                        "border-blue-600 text-slate-500 opacity-100 marker:bg-blue-500",
-                        "rounded-lg border border-slate-600 bg-slate-800/25 px-4 py-2",
-                        "flex select-none flex-col gap-2"
+                        "border-blue-600 text-blue-500 opacity-100 marker:bg-blue-500",
+                        "rounded-lg border border-blue-600 bg-blue-500/20 px-4 py-2",
+                        "flex cursor-pointer select-none flex-col gap-2"
                       )}
                     >
-                      <div>{c.name}</div>
-                      <div>{shortenAddress(c.address as string)}</div>
+                      <Contract {...c} selected={c.id === contractId} />
                     </div>
                   );
                 })}
+            </div>
+            <div className="flex gap-2">
+              {state === "api" && data && (
+                <div>
+                  <button
+                    suppressHydrationWarning
+                    className={twMerge(
+                      "group pointer-events-none my-4 flex cursor-not-allowed items-center justify-start gap-3 rounded-md border border-slate-600 px-3 py-2 text-slate-500 opacity-50 duration-300",
+                      "hover:bg-blue-800/10 hover:outline hover:outline-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400",
+                      "pointer-events-auto cursor-pointer border-blue-600 text-blue-500 opacity-100 marker:bg-blue-500",
+                      "w-fit"
+                    )}
+                    onClick={() => {
+                      //
+                      mutate({
+                        paymasterId: parseInt((id as string) ?? "-1"),
+                      });
+                    }}
+                  >
+                    Create API Keys
+                  </button>
+                  <div className="table">
+                    <div className="table-row">
+                      <div className="table-cell border border-blue-500/80 px-2 text-blue-500/80">
+                        API Key
+                      </div>
+                      <div className="table-cell border border-blue-500/80 px-2 text-blue-500/80">
+                        API Secret
+                      </div>
+                      <div className="table-cell border border-blue-500/80 px-2 text-blue-500/80"></div>
+                    </div>
+                    {data.access.map((d) => {
+                      return (
+                        <div key={d.id} className="table-row">
+                          <div className="table-cell border border-blue-500/80 px-2 text-blue-500/80">
+                            {d.apiKey}
+                          </div>
+                          <div className="table-cell border border-blue-500/80 px-2 text-blue-500/80">
+                            {d.apiSecret}
+                          </div>
+                          <div className="table-cell border border-blue-500/80 px-2 text-blue-500/80">
+                            Delete
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <div></div>

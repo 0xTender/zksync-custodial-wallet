@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { type PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -20,6 +21,9 @@ export default function Modal({
           )}
         >
           {children}
+        </div>
+        <div className="mt-2 text-center font-thin underline">
+          <Link href="/home">Dashboard</Link>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { createTRPCRouter, protectedProcedure } from "@app/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { makeId } from "@app/utils/random";
 
 export const paymasterRouter = createTRPCRouter({
   addContract: protectedProcedure
@@ -97,7 +98,37 @@ export const paymasterRouter = createTRPCRouter({
           address: true,
         },
       });
+      const access = await ctx.prisma.access.findMany({
+        where: {
+          paymasterId: paymaster.id,
+        },
+      });
 
-      return { paymaster, contract };
+      return { paymaster, contract, access };
+    }),
+  createAccess: protectedProcedure
+    .input(
+      z.object({
+        paymasterId: z.coerce.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      //
+      const paymaster = await ctx.prisma.paymaster.findFirstOrThrow({
+        where: {
+          id: input.paymasterId,
+          ownerId: ctx.session.user.id,
+        },
+      });
+
+      const access = await ctx.prisma.access.create({
+        data: {
+          apiKey: makeId(32),
+          paymasterId: paymaster.id,
+          apiSecret: makeId(32),
+        },
+      });
+
+      return { access };
     }),
 });
