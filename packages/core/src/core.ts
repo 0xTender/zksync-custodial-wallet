@@ -1,9 +1,11 @@
 export const addresses = {
   "270": {
+    AAFactory: "0xF294D1a0855a1162bec2805d24772cf78cCDaf52",
     Registry: "0xb76eD02Dea1ba444609602BE5D587c4bFfd67153",
     TestERC20: "0xf2FcC18ED5072b48C0a076693eCa72fE840b3981",
   },
   "280": {
+    AAFactory: "0xF294D1a0855a1162bec2805d24772cf78cCDaf52",
     Registry: "0xDc0c9476C357c654Bd6269749246263437ea3764",
     TestERC20: "0x7000fA0F7D422c9B559DFCE5763Efc941cd46ed9",
   },
@@ -616,7 +618,108 @@ export const PaymasterABI = [
     type: "receive",
   },
 ] as const;
-
+export const AAFactoryABI = [
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "_aaBytecodeHash",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "aaBytecodeHash",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "salt",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "accountOwner",
+        type: "address",
+      },
+    ],
+    name: "deployAccount",
+    outputs: [
+      {
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+] as const;
 export const RegistryABI = [
   {
     anonymous: false,

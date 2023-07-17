@@ -1,6 +1,6 @@
 import { Deployer } from "@matterlabs/hardhat-zksync-deploy";
 import { config, deployments, ethers, network } from "hardhat";
-import { HardhatRuntimeEnvironment, HttpNetworkConfig } from "hardhat/types";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { Provider, Wallet } from "zksync-web3";
 
@@ -36,7 +36,7 @@ export const deployZkSync = async (
   const wallet = await getWalletFromNamedAccount(from);
   const deployer = new Deployer(hre, wallet);
   const artifact = await deployer.loadArtifact(name);
-  const contract = await deployer.deploy(artifact, args ?? []);
+  const contract = await deployer.deploy(artifact, ...(args ?? []));
 
   await deployments.save(name, {
     abi: artifact.abi,
