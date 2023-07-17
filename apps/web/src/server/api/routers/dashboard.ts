@@ -34,7 +34,7 @@ export const dashboardRouter = createTRPCRouter({
       const topic = iface.getEventTopic("CreatePaymaster");
 
       const r = (await provider.getTransactionReceipt(input.tx)).logs.filter(
-        (e) => e.topics?.[0] === topic
+        (e: { topics: string[] }) => e.topics?.[0] === topic
       )[0];
       const chainId = (await provider.getNetwork()).chainId;
 

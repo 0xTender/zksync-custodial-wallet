@@ -29,7 +29,15 @@ const AddContract = (data: { address: string | undefined }) => {
     setMounted(true);
   }, []);
 
-  const [abi, setABI] = useState<Abi>([]);
+  const [{ abi, name, address: addContractAddress }, setData] = useState<{
+    abi: Abi;
+    name: string;
+    address: string;
+  }>({
+    abi: [],
+    name: "",
+    address: "",
+  });
 
   const { selectors } = useGetExecutableFunctions(abi);
 
@@ -38,6 +46,11 @@ const AddContract = (data: { address: string | undefined }) => {
       address: data?.address as `0x${string}`,
       abi,
     });
+
+  const {
+    query: { id },
+  } = useRouter();
+
   return (
     <div>
       <Formik<FormValues>
@@ -364,7 +377,11 @@ const AddContract = (data: { address: string | undefined }) => {
   ]`,
         }}
         onSubmit={(values) => {
-          setABI(JSON.parse(values.abi) as Abi);
+          setData({
+            abi: JSON.parse(values.abi) as Abi,
+            name: values.name,
+            address: values.address,
+          });
         }}
         validateOnMount
       >
@@ -457,7 +474,12 @@ const AddContract = (data: { address: string | undefined }) => {
           <button
             suppressHydrationWarning
             onClick={() => {
-              execute();
+              execute({
+                paymasterId: parseInt((id as string) ?? "-1"),
+                abiString: JSON.stringify(abi),
+                contractAddress: addContractAddress as `0x${string}`,
+                name: name,
+              });
             }}
             className={twMerge(
               "group pointer-events-none my-4 flex w-full cursor-not-allowed items-center justify-start gap-3 rounded-md border border-slate-600 px-3 py-2 text-slate-500 opacity-50 duration-300 hover:bg-blue-800/10 hover:outline hover:outline-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400",
@@ -496,7 +518,7 @@ export default function PaymasterId() {
     <div className="h-full bg-slate-900">
       <div className="flex h-full flex-row justify-between bg-slate-900">
         <div className="flex-1 py-12 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-4 border">
+          <div className="flex flex-col gap-4">
             <h1>{data && data.name}</h1>
             <button
               suppressHydrationWarning

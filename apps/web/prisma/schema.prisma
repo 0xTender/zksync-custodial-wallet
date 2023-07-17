@@ -43,6 +43,10 @@ model Contract {
   paymasterId      Int
   AllowedFunctions AllowedFunction[]
 
+  address   String @db.VarChar(64)
+  name      String @db.VarChar(64)
+  abiString String @db.MediumText
+
   @@map("Contracts")
 }
 
@@ -50,6 +54,9 @@ model AllowedFunction {
   id          Int      @id @default(autoincrement())
   contract    Contract @relation(fields: [contractsId], references: [id])
   contractsId Int
+
+  selector String @db.VarChar(64)
+  name     String @db.VarChar(64)
 
   @@map("AllowedFunctions")
 }
