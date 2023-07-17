@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "build": "turbo run build",
+    "build": "dotenv -- turbo run build",
     "dev": "dotenv -- turbo run dev",
     "start:container": "dotenv -- docker-compose up -d",
     "wait-for-port": "dotenv -- pnpm --filter core run wait-for-port",
