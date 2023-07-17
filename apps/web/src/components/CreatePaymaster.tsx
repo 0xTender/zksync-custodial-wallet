@@ -9,6 +9,8 @@ import { useChainId } from "wagmi";
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
 import { useCreatePaymaster } from "@app/hooks/contract/useCreatePaymaster";
+import { api } from "@app/utils/api";
+import { useRouter } from "next/router";
 
 const schema = z.object({
   name: z.string().min(8).max(64),
@@ -21,6 +23,11 @@ export default function CreatePaymaster({
 }: {
   setAppName: (name: string) => void;
 }) {
+  const { data: paymasters } = api.dashboard.getPaymasters.useQuery(undefined, {
+    retry(failureCount) {
+      return failureCount < 3;
+    },
+  });
   const id = useChainId();
 
   const [mounted, setMounted] = useState(false);
@@ -31,13 +38,23 @@ export default function CreatePaymaster({
 
   const [app, setApp] = useState<string>();
 
-  const { createPaymaster, isSuccess } = useCreatePaymaster();
+  const { createPaymaster, isSuccess } = useCreatePaymaster({
+    paymasterName: app ?? "",
+  });
 
   useEffect(() => {
     if (!isSuccess || !app) return;
 
     setAppName(app);
   }, [isSuccess, app, setAppName]);
+
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (!push || !paymasters || paymasters?.length === 0) return;
+
+    void push("/home");
+  }, [paymasters, push]);
 
   return (
     <Formik<FormValues>

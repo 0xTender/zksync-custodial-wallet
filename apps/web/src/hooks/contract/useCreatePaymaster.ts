@@ -4,7 +4,13 @@ import { RegistryABI, addresses } from "@root/core";
 import { useEffect } from "react";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 
-export const useCreatePaymaster = (userLimit?: bigint) => {
+export const useCreatePaymaster = ({
+  userLimit,
+  paymasterName,
+}: {
+  userLimit?: bigint;
+  paymasterName: string;
+}) => {
   const {
     mutateAsync: updateDB,
     isSuccess,
@@ -34,9 +40,9 @@ export const useCreatePaymaster = (userLimit?: bigint) => {
 
   useEffect(() => {
     if (transactionSuccess === true && data?.hash !== undefined) {
-      void updateDB({ tx: data?.hash });
+      void updateDB({ tx: data?.hash, paymasterName });
     }
-  }, [transactionSuccess, data, updateDB]);
+  }, [transactionSuccess, data, updateDB, paymasterName]);
 
   return { createPaymaster, isSuccess, isError };
 };

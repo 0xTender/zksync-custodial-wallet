@@ -17,17 +17,15 @@ export const dashboardRouter = createTRPCRouter({
       //
       return {};
     }),
-  getPaymasters: protectedProcedure
-    .input(z.object({}))
-    .query(async ({ ctx }) => {
-      return ctx.prisma.paymaster.findMany({
-        where: {
-          ownerId: ctx.session.user.id,
-        },
-      });
-    }),
+  getPaymasters: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.paymaster.findMany({
+      where: {
+        ownerId: ctx.session.user.id,
+      },
+    });
+  }),
   createPaymaster: protectedProcedure
-    .input(z.object({ tx: z.string() }))
+    .input(z.object({ tx: z.string(), paymasterName: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       const provider = new ethers.providers.JsonRpcProvider(env.RPC_URL);
 
@@ -64,7 +62,12 @@ export const dashboardRouter = createTRPCRouter({
 
       await ctx.prisma.paymaster.upsert({
         where: { address: paymaster },
-        create: { address: paymaster, chainId: chainId, ownerId: owner.id },
+        create: {
+          name: input.paymasterName ?? `${paymaster}`,
+          address: paymaster,
+          chainId: chainId,
+          ownerId: owner.id,
+        },
         update: {},
       });
 

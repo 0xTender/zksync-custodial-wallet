@@ -29,6 +29,7 @@ model Paymaster {
   Owner   User? @relation(fields: [ownerId], references: [id])
   ownerId Int?
 
+  name    String @db.VarChar(64)
   address String @unique @db.VarChar(64)
   chainId Int
 

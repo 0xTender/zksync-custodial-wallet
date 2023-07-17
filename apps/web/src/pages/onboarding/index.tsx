@@ -1,10 +1,11 @@
 import Modal from "@app/components/Modal";
 import { DisconnectButton } from "../../components/buttons/DisconnectButton";
 import Onboarding from "@app/components/Onboarding";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CreatePaymaster from "@app/components/CreatePaymaster";
 import { api } from "@app/utils/api";
 import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
 
 const steps = {
   onboarding: {
@@ -39,6 +40,15 @@ export default function App() {
 
     return steps.app;
   }, [appName, name, data]);
+
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (!appName || !push) {
+      return;
+    }
+    void push("/home");
+  }, [appName, push]);
 
   return (
     <Modal heading={step.title || `${appName} by @${name}`} grayscale>
