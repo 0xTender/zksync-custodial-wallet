@@ -1,4 +1,4 @@
-import { type Chain, WagmiConfig, createConfig, mainnet } from "wagmi";
+import { type Chain, WagmiConfig, createConfig } from "wagmi";
 import { createPublicClient, http } from "viem";
 import { type PropsWithChildren } from "react";
 
