@@ -47,7 +47,7 @@ export default function App() {
     if (!appName || !push) {
       return;
     }
-    void push("/home");
+    // void push("/home");
   }, [appName, push]);
 
   return (

@@ -1,24 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { type Abi } from "viem";
 import { useGetExecutableFunctions } from "./useGetExecutableFunctions";
 import { useSetAllowedContractsPrepare } from "@app/hooks/contract/useSetAllowedContractsPrepare";
 
 export const useSetAllowedContractsExecute = ({
   address,
-  abiString,
+  abi,
 }: {
   address: `0x${string}`;
-  abiString: string;
+  abi: Abi;
 }) => {
-  const [abi, setAbi] = useState<Abi>();
-
   const { selectors } = useGetExecutableFunctions(abi ?? []);
 
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
-
-  useEffect(() => {
-    setAbi(JSON.parse(abiString) as Abi);
-  }, [abiString, setAbi]);
 
   const { setAllowedContracts, isTransactionSuccess } =
     useSetAllowedContractsPrepare(address);
@@ -36,5 +30,11 @@ export const useSetAllowedContractsExecute = ({
     });
   };
 
-  return { setSelectedNames, selectors, isTransactionSuccess, execute };
+  return {
+    setSelectedNames,
+    selectors,
+    isTransactionSuccess,
+    execute,
+    selectedNames,
+  };
 };

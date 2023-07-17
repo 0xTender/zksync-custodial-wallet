@@ -24,7 +24,7 @@ export default function AuthProvider({ children }: PropsWithChildren<unknown>) {
     if (isConnected && authenticated === true) {
       void router.push("/onboarding");
     } else {
-      void router.push("/");
+      // void router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected, authenticated]);

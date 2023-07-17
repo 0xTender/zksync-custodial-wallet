@@ -53,7 +53,7 @@ export default function CreatePaymaster({
   useEffect(() => {
     if (!push || !paymasters || paymasters?.length === 0) return;
 
-    void push("/home");
+    // void push("/home");
   }, [paymasters, push]);
 
   return (

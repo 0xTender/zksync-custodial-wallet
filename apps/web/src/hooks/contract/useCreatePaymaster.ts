@@ -15,6 +15,7 @@ export const useCreatePaymaster = ({
     mutateAsync: updateDB,
     isSuccess,
     isError,
+    status,
   } = api.dashboard.createPaymaster.useMutation({
     onError: (...e) => {
       console.error(...e);
@@ -39,10 +40,14 @@ export const useCreatePaymaster = ({
   });
 
   useEffect(() => {
-    if (transactionSuccess === true && data?.hash !== undefined) {
+    if (
+      transactionSuccess === true &&
+      data?.hash !== undefined &&
+      status === "idle"
+    ) {
       void updateDB({ tx: data?.hash, paymasterName });
     }
-  }, [transactionSuccess, data, updateDB, paymasterName]);
+  }, [transactionSuccess, data, updateDB, paymasterName, status]);
 
   return { createPaymaster, isSuccess, isError };
 };
