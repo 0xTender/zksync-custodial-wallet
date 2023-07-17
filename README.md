@@ -1,5 +1,16 @@
 ## Custodial Wallet
 
+- [Custodial Wallet](#custodial-wallet)
+- [Onboarding](#onboarding)
+- [Security](#security)
+- [The API](#the-api)
+  - [Create Wallet](#create-wallet)
+  - [Execute Transaction](#execute-transaction)
+- [The Contracts](#the-contracts)
+- [Screenshots](#screenshots)
+- [About the Project](#about-the-project)
+- [Development](#development)
+
 A custodial wallet service - with Paymasters and Smart Wallet Accounts.
 
 Easily on-board users to your application with OAuth based flows and without the need for them to have their own wallets.
