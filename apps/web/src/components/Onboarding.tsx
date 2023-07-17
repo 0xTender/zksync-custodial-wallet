@@ -2,9 +2,10 @@ import { z } from "zod";
 import { Field, Formik } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { ArrowRightIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import { useAccount } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
+import { api } from "@app/utils/api";
 
 const schema = z.object({
   name: z.string().min(8).max(64),
@@ -18,6 +19,7 @@ export default function Onboarding({
   setName: (name: string) => void;
 }) {
   const { address } = useAccount();
+  const [username, setUsername] = useState<string>();
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -25,11 +27,53 @@ export default function Onboarding({
     setMounted(true);
   }, []);
 
+  const {
+    data,
+    isError: isSigningError,
+    isLoading,
+    isSuccess: isSignSuccess,
+    signMessage,
+  } = useSignMessage({
+    message: JSON.stringify({
+      username,
+    }),
+  });
+
+  const {
+    mutate: registerUser,
+    isError: registerError,
+    isSuccess: isRegisterSuccess,
+    isLoading: isRegistering,
+  } = api.user.registerUser.useMutation();
+
+  useEffect(() => {
+    if (!isRegisterSuccess || !isSignSuccess || !username) return;
+
+    setName(username);
+  }, [isSignSuccess, username, setName, isRegisterSuccess]);
+
+  useEffect(() => {
+    if (!data || !username || !address) return;
+
+    void registerUser({
+      address,
+      message: { username },
+      signature: data,
+    });
+  }, [data, username, address, registerUser]);
+
   return (
     <Formik<FormValues>
       initialValues={{ name: "" }}
       validationSchema={toFormikValidationSchema(schema)}
-      onSubmit={(values) => setName(values.name)}
+      onSubmit={(values) => {
+        setUsername(values.name);
+        signMessage({
+          message: JSON.stringify({
+            username: values.name,
+          }),
+        });
+      }}
       validateOnMount
     >
       {(formik) => (
@@ -65,7 +109,7 @@ export default function Onboarding({
                 "pointer-events-auto cursor-pointer border-blue-600 text-blue-500 opacity-100 marker:bg-blue-500"
             )}
             type="submit"
-            disabled={formik.isSubmitting || !formik.isValid}
+            disabled={!formik.isValid || isLoading || isRegistering}
           >
             <div className="inline-flex items-center gap-2">
               <UserCircleIcon className="h-5 w-5" />
@@ -73,6 +117,8 @@ export default function Onboarding({
             </div>
             <ArrowRightIcon className="h-4 w-4 duration-300 group-hover:ml-[72%]" />
           </button>
+          {isSigningError && <div>Error signing message</div>}
+          {registerError && <div>Error registering user</div>}
         </form>
       )}
     </Formik>

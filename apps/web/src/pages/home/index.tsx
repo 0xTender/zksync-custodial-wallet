@@ -3,6 +3,8 @@ import { DisconnectButton } from "../../components/buttons/DisconnectButton";
 import Onboarding from "@app/components/Onboarding";
 import { useMemo, useState } from "react";
 import Register from "@app/components/Register";
+import { api } from "@app/utils/api";
+import { useAccount } from "wagmi";
 
 const steps = {
   onboarding: {
@@ -19,11 +21,25 @@ const steps = {
 export default function App() {
   const [name, setName] = useState("");
   const [appName, setAppName] = useState("");
+  const { address } = useAccount();
+
+  const { data } = api.user.details.useQuery({
+    address: address || "",
+  });
   const step = useMemo(() => {
+    const username = data?.username as string | undefined;
+    if (!name && username !== undefined) {
+      setName(username);
+      return steps.register;
+    }
+
     if (!name) return steps.onboarding;
+
     if (!appName) return steps.register;
+
     return steps.app;
-  }, [appName, name]);
+  }, [appName, name, data]);
+
   return (
     <Modal heading={step.title || `${appName} by @${name}`} grayscale>
       {step === steps.onboarding && <Onboarding setName={setName} />}

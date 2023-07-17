@@ -8,8 +8,9 @@ datasource db {
 }
 
 model User {
-  id      Int    @id @default(autoincrement())
-  address String @unique @db.VarChar(64)
+  id       Int    @id @default(autoincrement())
+  address  String @unique @db.VarChar(64)
+  username String @db.VarChar(64)
 
   paymasters Paymaster[]
 }
