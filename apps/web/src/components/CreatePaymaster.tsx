@@ -15,7 +15,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export default function Register({
+export default function CreatePaymaster({
   setAppName,
 }: {
   setAppName: (name: string) => void;

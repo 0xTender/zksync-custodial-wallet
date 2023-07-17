@@ -2,7 +2,7 @@ import Modal from "@app/components/Modal";
 import { DisconnectButton } from "../../components/buttons/DisconnectButton";
 import Onboarding from "@app/components/Onboarding";
 import { useMemo, useState } from "react";
-import Register from "@app/components/Register";
+import CreatePaymaster from "@app/components/CreatePaymaster";
 import { api } from "@app/utils/api";
 import { useAccount } from "wagmi";
 
@@ -11,7 +11,7 @@ const steps = {
     title: "Onboarding",
   },
   register: {
-    title: "Register Paymaster",
+    title: "Create Paymaster",
   },
   app: {
     title: null,
@@ -43,7 +43,7 @@ export default function App() {
   return (
     <Modal heading={step.title || `${appName} by @${name}`} grayscale>
       {step === steps.onboarding && <Onboarding setName={setName} />}
-      {step === steps.register && <Register setAppName={setAppName} />}
+      {step === steps.register && <CreatePaymaster setAppName={setAppName} />}
       {/* absolute */}
       <DisconnectButton />
     </Modal>
